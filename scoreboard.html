@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scoreboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="scoreboard-page">
+  <h1 style="color:#375ab7;font-size:2.5rem;margin-bottom:10px;letter-spacing:2px;">Scoreboard</h1>
+  <div id="scoreboard">
+    <h3>Best Game</h3>
+    <div id="score-best-time">Fastest: -- s / -- moves</div>
+    <div id="score-best-moves">Fewest Moves: -- moves / -- s</div>
+    <button id="reset-best-btn">Reset Best Score</button>
+    <button onclick="window.location.href='index.html'">Back to Game</button>
+  </div>
+  <script>
+    // Scoreboard logic (read from localStorage)
+    const scoreBestTime = document.getElementById('score-best-time');
+    const scoreBestMoves = document.getElementById('score-best-moves');
+    const resetBestBtn = document.getElementById('reset-best-btn');
+    let bestMoves = localStorage.getItem('memory-best-moves') ? parseInt(localStorage.getItem('memory-best-moves')) : null;
+    let bestMovesTime = localStorage.getItem('memory-best-moves-time') ? parseFloat(localStorage.getItem('memory-best-moves-time')) : null;
+    let bestTime = localStorage.getItem('memory-best-time') ? parseFloat(localStorage.getItem('memory-best-time')) : null;
+    let bestTimeMoves = localStorage.getItem('memory-best-time-moves') ? parseInt(localStorage.getItem('memory-best-time-moves')) : null;
+    function showBestTime() {
+      if (bestTime !== null && bestTimeMoves !== null) {
+        scoreBestTime.textContent = `Fastest: ${bestTime.toFixed(1)} s / ${bestTimeMoves} moves`;
+      } else {
+        scoreBestTime.textContent = 'Fastest: -- s / -- moves';
+      }
+      if (bestMoves !== null && bestMovesTime !== null) {
+        scoreBestMoves.textContent = `Fewest Moves: ${bestMoves} moves / ${bestMovesTime.toFixed(1)} s`;
+      } else {
+        scoreBestMoves.textContent = 'Fewest Moves: -- moves / -- s';
+      }
+    }
+    resetBestBtn.addEventListener('click', () => {
+      localStorage.removeItem('memory-best-time');
+      localStorage.removeItem('memory-best-time-moves');
+      localStorage.removeItem('memory-best-moves');
+      localStorage.removeItem('memory-best-moves-time');
+      bestTime = null;
+      bestTimeMoves = null;
+      bestMoves = null;
+      bestMovesTime = null;
+      showBestTime();
+    });
+    showBestTime();
+  </script>
+</body>
+</html>
